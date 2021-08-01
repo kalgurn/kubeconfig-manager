@@ -25,9 +25,8 @@ func getConfig() string {
 
 func Run(args []string) {
 	kubeConfigPath = getConfig()
-
-	cfg := kubeconfig.Load(kubeConfigPath)
 	var err error
+	cfg := kubeconfig.Load(kubeConfigPath)
 
 	switch args[1] {
 	case "list":

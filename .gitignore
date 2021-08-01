@@ -15,3 +15,6 @@
 vendor/
 # Test kubeconfig files
 *-test.yaml
+
+# Intermediate binary
+kubeconfig-manager

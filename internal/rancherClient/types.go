@@ -1,12 +1,12 @@
 package rancherClient
 
-type clusters struct {
-	Data []data `json:"data"`
+type Clusters struct {
+	Data []Data `json:"data"`
 }
-type data struct {
+type Data struct {
 	Id string `json:"id"`
 }
 
-type config struct {
+type Config struct {
 	Config string `json:"config"`
 }

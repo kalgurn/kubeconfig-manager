@@ -13,7 +13,7 @@ func FindContextData(ctx string, cfg *api.Config) (*api.Context, error) {
 			return v, nil
 		}
 	}
-	return &api.Context{}, fmt.Errorf("No context called %s found in config", ctx)
+	return &api.Context{}, fmt.Errorf("no context called %s found in config", ctx)
 }
 
 func FindCluster(c string, cfg *api.Config) (*api.Cluster, error) {
@@ -22,7 +22,7 @@ func FindCluster(c string, cfg *api.Config) (*api.Cluster, error) {
 			return v, nil
 		}
 	}
-	return &api.Cluster{}, fmt.Errorf("No cluster with name %s found in config", c)
+	return &api.Cluster{}, fmt.Errorf("no cluster with name %s found in config", c)
 }
 
 func FindUser(u string, cfg *api.Config) (*api.AuthInfo, error) {
@@ -31,5 +31,5 @@ func FindUser(u string, cfg *api.Config) (*api.AuthInfo, error) {
 			return v, nil
 		}
 	}
-	return &api.AuthInfo{}, fmt.Errorf("No authInfo for name %s found in config", u)
+	return &api.AuthInfo{}, fmt.Errorf("no authInfo for name %s found in config", u)
 }

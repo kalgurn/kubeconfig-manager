@@ -6,8 +6,6 @@ import (
 	"k8s.io/client-go/tools/clientcmd/api"
 )
 
-func AddFromCloud() {}
-
 func Add(importCfg *api.Config, cfg *api.Config) error {
 	for cl, v := range importCfg.Clusters {
 		cfg.Clusters[cl] = v

@@ -12,5 +12,5 @@ func Save(path string, cfg *api.Config) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("Changes saved at", path)
+	fmt.Println("saved at", path)
 }
