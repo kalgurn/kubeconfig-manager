@@ -4,9 +4,53 @@ on:
     branches:
       - master
 jobs:
+  # get-config:
+  #   name: get-config
+  #   runs-on: ubuntu-latest
+    
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+      
+  #     - name: Read config
+        
+      
+  set-version:
+    name: Calculate semver
+    runs-on: ubuntu-latest
+    outputs:
+      new_tag: ${{ steps.tag.outputs.new_tag }}
+      tag: ${{ steps.tag.outputs.tag}}
+      part: ${{ steps.tag.outputs.part}}
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.35.0
+        id: tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DRY_RUN: true
+          DEFAULT_BUMP: patch
+          PRERELEASE_SUFFIX: "pr-${{ github.event.pull_request.number }}"
+
   build: 
     name: Build
     runs-on: ubuntu-latest
+    needs:
+      - set-version
+    strategy:
+      matrix:
+        goos: 
+          - linux
+          - darwin
+        goarch: 
+          - amd64
+          - arm64
     steps:
 
       - uses: actions/checkout@v2
@@ -16,31 +60,27 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.14.0' # The Go version to download (if necessary) and use.
+          go-version: '1.17' # The Go version to download (if necessary) and use.
       
       # Install all the dependencies
       - name: Install dependencies
         run: |
           go version
           go get -u golang.org/x/lint/golint
-
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.26.0
-        id: tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DRY_RUN: true
           
       # Run build of the application
       - name: Run build
-        run: ./build.sh ${{ steps.id.outputs.new_tag }}
-        
+        run: ./build.sh ${{ needs.set-version.outputs.new_tag }}
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+
       - name: Store intermediate artifact
         uses: actions/upload-artifact@v2
         with:
-          name: kubeconfig-manager-${{ steps.id.outputs.new_tag }}
-          path: kubeconfig-manager
+          name: kubeconfig-manager-${{ matrix.goos }}-${{ matrix.goarch }}-${{ needs.set-version.outputs.new_tag }}.zip
+          path: kubeconfig-manager-${{ matrix.goos }}-${{ matrix.goarch }}.zip
         
       
   test:
@@ -57,7 +97,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.14.0' # The Go version to download (if necessary) and use.
+          go-version: '1.17.0' # The Go version to download (if necessary) and use.
 
       - name: Run Unit tests
         run: go test ./... --coverprofile=coverage.out -test.v

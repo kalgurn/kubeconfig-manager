@@ -30,7 +30,9 @@ func Run(args []string) {
 	kubeConfigPath = getConfig()
 	var err error
 	cfg := kubeconfig.Load(kubeConfigPath)
-
+	if len(os.Args) < 2 {
+		printUsage()
+	}
 	switch args[1] {
 	case "version":
 		fmt.Printf("\nVersion: %v\nBuild date: %s\nCommit: %v\n", Version, BuildDate, CommitSHA)
@@ -88,8 +90,12 @@ func Run(args []string) {
 		}
 
 	default:
-		fmt.Println("usage")
-		os.Exit(1)
+		printUsage()
 	}
 
+}
+
+func printUsage() {
+	fmt.Println("example usage")
+	os.Exit(1)
 }
