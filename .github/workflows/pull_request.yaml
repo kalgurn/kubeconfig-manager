@@ -1,5 +1,8 @@
 name: Pull Request
-on: [pull_request]
+on:
+  pull_request:
+    branches:
+      - master
 jobs:
   build: 
     name: Build
@@ -20,15 +23,23 @@ jobs:
         run: |
           go version
           go get -u golang.org/x/lint/golint
+
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.26.0
+        id: tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DRY_RUN: true
           
       # Run build of the application
       - name: Run build
-        run: go build -o kubeconfig-manager cmd/kubeconfig-manager/main.go
+        run: ./build.sh ${{ steps.id.outputs.new_tag }}
         
       - name: Store intermediate artifact
         uses: actions/upload-artifact@v2
         with:
-          name: kubeconfig-manager-PR
+          name: kubeconfig-manager-${{ steps.id.outputs.new_tag }}
           path: kubeconfig-manager
         
       

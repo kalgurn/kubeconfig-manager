@@ -9,6 +9,9 @@ import (
 )
 
 var kubeConfigPath = "/.kube/config"
+var Version = "empty version"
+var BuildDate = "empty date"
+var CommitSHA = "empty sha"
 
 func getConfig() string {
 	kubeConfigPath, present := os.LookupEnv("KUBECONFIG")
@@ -29,6 +32,8 @@ func Run(args []string) {
 	cfg := kubeconfig.Load(kubeConfigPath)
 
 	switch args[1] {
+	case "version":
+		fmt.Printf("\nVersion: %v\nBuild date: %s\nCommit: %v\n", Version, BuildDate, CommitSHA)
 	case "list":
 		List(cfg)
 	case "ctx":
