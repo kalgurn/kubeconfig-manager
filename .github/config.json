@@ -1,0 +1,23 @@
+{
+    "_comment": "Not used yet, will think about implementation",
+    "go-version": "1.17",
+    "environments": {
+        "linux": [
+
+            "386",
+            "amd64",
+            "arm",
+            "arm64"
+        ],
+        "darwin":[
+            "arm64",
+            "amd64"
+        ],
+        "windows":[
+            "386",
+            "arm",
+            "amd64"
+        ]
+    }
+
+}
