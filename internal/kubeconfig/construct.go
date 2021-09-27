@@ -1,20 +1,21 @@
-package utils
+package kubeconfig
 
 import (
 	"fmt"
 
+	"github.com/kalgurn/kubeconfig-manager/internal/utils"
 	"k8s.io/client-go/tools/clientcmd/api"
 )
 
-func ConstructConfig(ctx string, cfg *api.Config) (*api.Config, error) {
+func Construct(ctx string, cfg *api.Config) (*api.Config, error) {
 	c := api.NewConfig()
 	// combine into one config json
-	if ctd, err := FindContextData(ctx, cfg); err != nil {
+	if ctd, err := utils.FindContextData(ctx, cfg); err != nil {
 		return c, fmt.Errorf("error: %s", err)
 	} else {
-		if cu, err := FindUser(ctd.AuthInfo, cfg); err != nil {
+		if cu, err := utils.FindUser(ctd.AuthInfo, cfg); err != nil {
 			return c, fmt.Errorf("error: %s", err)
-		} else if cc, err := FindCluster(ctd.Cluster, cfg); err != nil {
+		} else if cc, err := utils.FindCluster(ctd.Cluster, cfg); err != nil {
 			return c, fmt.Errorf("error: %s", err)
 		} else {
 			c.APIVersion = cfg.APIVersion

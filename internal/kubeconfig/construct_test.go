@@ -1,12 +1,13 @@
-package command
+package kubeconfig_test
 
 import (
 	"testing"
 
+	"github.com/kalgurn/kubeconfig-manager/internal/kubeconfig"
 	"k8s.io/client-go/tools/clientcmd/api"
 )
 
-func TestExport(t *testing.T) {
+func TestConstructConfig(t *testing.T) {
 	c := api.NewConfig()
 	c.Contexts["ctx1-test"] = &api.Context{
 		Cluster:  "ctx1-test",
@@ -20,6 +21,6 @@ func TestExport(t *testing.T) {
 	}
 	c.CurrentContext = "ctx1-test"
 
-	Export("ctx1-test", c)
-	Export("ctx3", c)
+	kubeconfig.Construct("ctx1-test", c)
+	kubeconfig.Construct("ctx2-test", c)
 }

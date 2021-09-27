@@ -2,7 +2,7 @@
 
 PACKAGE_NAME="kubeconfig-manager"
 MAIN_PACKAGE="cmd/${PACKAGE_NAME}/main.go"
-COMMAND_PACKAGE="github.com/kalgurn/${PACKAGE_NAME}/internal/command"
+COMMAND_PACKAGE="github.com/kalgurn/${PACKAGE_NAME}/internal/cmd"
 
 BINARY_NAME="${PACKAGE_NAME}-${GOOS}-${GOARCH}"
 
