@@ -48,7 +48,6 @@ Use "kcmanager [command] --help" for more information about a command.
 By default, if not specified with a flag the bahaviour of kcmanager is next:
 
 ```bash
-Error: requires at least 1 arg(s), only received 0
 Usage:
   kcmanager add [path to kubeconfig] [flags]
   kcmanager add [command]
@@ -62,15 +61,19 @@ Flags:
 Global Flags:
   -v, --verbose   verbose output
 
-Use "kcmanager add [command] --help" for more information about a command.```
+Use "kcmanager add [command] --help" for more information about a command.
+```
 
 Currently implemented flags
 
 - _rancher_
+
 This flag requires additional enviroenmtn variable RANCHER_TOKEN to be set. This allows to download a kubeconfig for a specific cluster listed in your rancher installation and then add it to your current configuration. Example usage:
 
 ```bash
 export RANCHER_TOKEN=token-xxxxx:xxxxxxxxxxxxxxxxxxxxxxxxx
+
+kcmanager add rancher
 adding kubeconfig downloaded from a specific rancher installation
 
 Usage:
