@@ -31,5 +31,3 @@ func Construct(ctx string, cfg *api.Config) (*api.Config, error) {
 
 	return c, nil
 }
-
-func CheckError() {}
