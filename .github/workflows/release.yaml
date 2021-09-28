@@ -23,7 +23,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
-          DRY_RUN: false
+          DRY_RUN: true
 
   test:
     name: Test
@@ -130,6 +130,14 @@ jobs:
       - name: Release Notes
         run:
           git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges >> ".github/RELEASE_TEMPLATE.md"
+      
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.35.0
+        id: tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DRY_RUN: false
 
       - name: Download artifacts
         id: download
