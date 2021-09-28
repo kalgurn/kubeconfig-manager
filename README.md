@@ -19,11 +19,28 @@ You are now ready to go
 By default _kubeconig-manager_ will use a config defined in a __KUBECONFIG__ environment variable. If there is none, it will use the one from the user home dir, e.g. _~/.kube/config_.
 
 ```bash
-kcmanager list - Lists all of the current contextes
-kcmanager ctx context_name - Switch to a context context_name
-kcmanager export context_name - Export one context from your configuration as a separate kubeconfig with user and server configuration. It will be named as a context_name.yaml
-kcmanager delete context_name - Delete context_name context and related user/server
-kcmanager add - will be described below
+kcmanager is a tool for kubeconfig management
+
+Usage:
+  kcmanager [flags]
+  kcmanager [command]
+
+Available Commands:
+  add         adding kubeconfig context, cluster and user from external to current
+  completion  generate the autocompletion script for the specified shell
+  ctx         switch contexts to the one defined in the config
+  delete      delete contexts defined in the config
+  export      Exports context to the yaml file $context.yaml
+  help        Help about any command
+  list        list contexts defined in the config
+  ns          switch default namespace for the current context
+  version     outputs version
+
+Flags:
+  -h, --help      help for kcmanager
+  -v, --verbose   verbose output
+
+Use "kcmanager [command] --help" for more information about a command.
 ```
 
 ### _kcmanager add_ options
@@ -31,15 +48,40 @@ kcmanager add - will be described below
 By default, if not specified with a flag the bahaviour of kcmanager is next:
 
 ```bash
-kcmanager add context_name.yaml - will add all of the contexts and related user/server configurations to your kubeconfig
-```
+Error: requires at least 1 arg(s), only received 0
+Usage:
+  kcmanager add [path to kubeconfig] [flags]
+  kcmanager add [command]
+
+Available Commands:
+  rancher     adding kubeconfig downloaded from a specific rancher installation
+
+Flags:
+  -h, --help   help for add
+
+Global Flags:
+  -v, --verbose   verbose output
+
+Use "kcmanager add [command] --help" for more information about a command.```
 
 Currently implemented flags
 
-- _--rancher_
+- _rancher_
 This flag requires additional enviroenmtn variable RANCHER_TOKEN to be set. This allows to download a kubeconfig for a specific cluster listed in your rancher installation and then add it to your current configuration. Example usage:
 
 ```bash
 export RANCHER_TOKEN=token-xxxxx:xxxxxxxxxxxxxxxxxxxxxxxxx
-kcmanager add --rancher RANCHER_URL CLUSTER_NAME
+adding kubeconfig downloaded from a specific rancher installation
+
+Usage:
+  kcmanager add rancher --url=[rancher url] --token=[rancher token|| or the env variable] [flags]
+
+Flags:
+  -c, --cluster string   URL to a Rancher
+  -h, --help             help for rancher
+  -t, --token string     token to a Rancher
+  -u, --url string       URL to a Rancher
+
+Global Flags:
+  -v, --verbose   verbose output
 ```
