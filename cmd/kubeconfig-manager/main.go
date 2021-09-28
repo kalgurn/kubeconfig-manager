@@ -1,13 +1,11 @@
 package main
 
 import (
-	"os"
-
-	"github.com/kalgurn/kubeconfig-manager/internal/command"
+	"github.com/kalgurn/kubeconfig-manager/internal/cmd"
 )
 
 func main() {
 
-	command.Run(os.Args)
+	cmd.Execute()
 
 }

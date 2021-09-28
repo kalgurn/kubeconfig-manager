@@ -26,8 +26,14 @@ func init() {
 
 }
 
+func TestGetTokenFromEnv(t *testing.T) {
+	token := rancherClient.GetToken("")
+	if token != "Bearer "+validTokenAnswer {
+		t.Errorf("getToken failed - expected %v, got %v", validTokenAnswer, token)
+	}
+}
 func TestGetToken(t *testing.T) {
-	token := rancherClient.GetToken()
+	token := rancherClient.GetToken("")
 	if token != "Bearer "+validTokenAnswer {
 		t.Errorf("getToken failed - expected %v, got %v", validTokenAnswer, token)
 	}
@@ -40,7 +46,7 @@ func TestGetClusterID(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	clusterID := rancherClient.GetClusterID(ts.URL, "test-cluster")
+	clusterID := rancherClient.GetClusterID(ts.URL, "test-cluster", "token")
 	if clusterID != validID {
 		t.Errorf("getClusterID failed - expected %v, got %v", validID, clusterID)
 	}
@@ -69,7 +75,7 @@ func TestGetRancherConfig(t *testing.T) {
 	ts := httptest.NewServer(mux)
 	defer ts.Close()
 
-	clusterConfig, err := rancherClient.GetRancherConfig(ts.URL, "test-id")
+	clusterConfig, err := rancherClient.GetRancherConfig(ts.URL, "test-id", "token")
 	if err != nil {
 		t.Error("error during the configuration read")
 	}

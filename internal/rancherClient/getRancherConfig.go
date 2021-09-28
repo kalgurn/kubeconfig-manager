@@ -12,18 +12,23 @@ import (
 	"k8s.io/client-go/tools/clientcmd/api"
 )
 
-func GetToken() string {
-	bearer, present := os.LookupEnv("RANCHER_TOKEN")
+func GetToken(token string) string {
 	// RANCHER_TOKEN=token-xxxxx:xxxxxxxxxxxxxxxxxxxxxxxxx
-	if !present {
-		RespError(errors.New("variable RANCHER_TOKEN is not set"))
-		os.Exit(1)
+	if len(token) <= 1 {
+		tokenEnv, present := os.LookupEnv("RANCHER_TOKEN")
+		if !present {
+			RespError(errors.New("variable RANCHER_TOKEN is not set"))
+			os.Exit(1)
+		}
+		return "Bearer " + tokenEnv
+	} else {
+		return "Bearer " + token
 	}
-	return "Bearer " + bearer
+
 }
-func GetClusterID(URL string, name string) string {
-	url := fmt.Sprintf("%s/v3/clusters/?name=%s", URL, name)
-	bearer := GetToken()
+func GetClusterID(URL string, cluster string, token string) string {
+	url := fmt.Sprintf("%s/v3/clusters/?name=%s", URL, cluster)
+	bearer := GetToken(token)
 	// Create a new request using http
 	req, err := http.NewRequest("GET", url, nil)
 	RespError(err)
@@ -42,13 +47,16 @@ func GetClusterID(URL string, name string) string {
 	var cluster1 Clusters
 	err = json.Unmarshal([]byte(body), &cluster1)
 	RespError(err)
-	return cluster1.Data[0].Id
+	if len(cluster1.Data) >= 1 {
+		return cluster1.Data[0].Id
+	}
+	return "error"
 
 }
 
-func GetRancherConfig(url string, cluster string) (*api.Config, error) {
-	bearer := GetToken()
-	clusterID := GetClusterID(url, cluster)
+func GetRancherConfig(url string, cluster string, token string) (*api.Config, error) {
+	bearer := GetToken(token)
+	clusterID := GetClusterID(url, cluster, token)
 	URL := fmt.Sprintf("%s/v3/clusters/%s?action=generateKubeconfig", url, clusterID)
 	req, err := http.NewRequest("POST", URL, nil)
 	RespError(err)
