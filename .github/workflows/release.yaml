@@ -24,6 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           DRY_RUN: true
+          DEFAULT_BUMP: patch
 
   test:
     name: Test
@@ -138,6 +139,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           DRY_RUN: false
+          DEFAULT_BUMP: patch
 
       - name: Download artifacts
         id: download
