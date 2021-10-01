@@ -11,26 +11,26 @@ import (
 )
 
 var (
-	URL     string
-	Token   string
-	Cluster string
+	RancherURL     string
+	RancherToken   string
+	RancherCluster string
 )
 
 func init() {
-	addRancherCmd.Flags().StringVarP(&URL, "url", "u", "", "URL to a Rancher")
-	addRancherCmd.Flags().StringVarP(&Cluster, "cluster", "c", "", "URL to a Rancher")
-	addRancherCmd.Flags().StringVarP(&Token, "token", "t", "", "token to a Rancher")
+	addRancherCmd.Flags().StringVarP(&RancherURL, "url", "u", "", "URL to a Rancher")
+	addRancherCmd.Flags().StringVarP(&RancherCluster, "cluster", "c", "", "URL to a Rancher")
+	addRancherCmd.Flags().StringVarP(&RancherToken, "token", "t", "", "token to a Rancher")
 	addRancherCmd.MarkFlagRequired("url")
 	addRancherCmd.MarkFlagRequired("cluster")
 	addCmd.AddCommand(addRancherCmd)
 }
 
 func AddRancherComposer(cmd *cobra.Command, args []string) error {
-	URL, _ = cmd.Flags().GetString("url")
-	Token, _ = cmd.Flags().GetString("token")
-	Cluster, _ = cmd.Flags().GetString("cluter")
+	RancherURL, _ = cmd.Flags().GetString("url")
+	RancherToken, _ = cmd.Flags().GetString("token")
+	RancherCluster, _ = cmd.Flags().GetString("cluster")
 
-	err := AddRancher(URL, Cluster, Token)
+	err := AddRancher(RancherURL, RancherCluster, RancherToken)
 
 	return err
 }
@@ -41,7 +41,7 @@ func AddRancher(url string, cluster string, token string) error {
 	}
 	defaultCfg := kubeconfig.Load(kubeconfigPath)
 	logger = log.NewLogger(Verbose)
-	logger.Debug("downloading kubeconfig for a cluster", Cluster, "from", URL)
+	logger.Debug("downloading kubeconfig for a cluster", RancherCluster, "from", RancherURL)
 	rancherCfg, err := rancherClient.GetRancherConfig(url, cluster, token)
 	if err != nil {
 		fmt.Println(err)
@@ -56,9 +56,9 @@ func AddRancher(url string, cluster string, token string) error {
 }
 
 var addRancherCmd = &cobra.Command{
-	Use:   "rancher --url=[rancher url] --token=[rancher token]",
-	Short: "adding kubeconfig downloaded from a specific rancher installation",
-	Long:  "adding kubeconfig downloaded from a specific rancher installation",
+	Use:   "rancher --url=[rancher url] --token=[rancher token] --cluster=[cluster name]",
+	Short: "adds kubeconfig downloaded from a specific rancher installation",
+	Long:  "adds kubeconfig downloaded from a specific rancher installation",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return AddRancherComposer(cmd, args)
 	},
