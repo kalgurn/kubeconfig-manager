@@ -96,7 +96,7 @@ This subcommand requires additional Azure environment variables to be set:
 
 ```bash
 Usage:
-  kcmanager add aks --url=[rancher url] --token=[rancher token] [flags]
+  kcmanager add aks --resource-group=[Azure RG name] --cluster=[cluster name] --admin[true if set]
 
 Flags:
   -a, --admin                   Download a user/admin credentials
