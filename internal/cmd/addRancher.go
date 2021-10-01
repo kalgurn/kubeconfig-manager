@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/kalgurn/kubeconfig-manager/internal/kubeconfig"
 	log "github.com/kalgurn/kubeconfig-manager/internal/logger"
@@ -36,6 +37,7 @@ func AddRancherComposer(cmd *cobra.Command, args []string) error {
 }
 func AddRancher(url string, cluster string, token string) error {
 	kubeconfigPath, err := kubeconfig.GetConfigPath()
+	url = strings.TrimSuffix(url, "/")
 	if err != nil {
 		return fmt.Errorf("%s", err)
 	}

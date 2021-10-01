@@ -106,7 +106,6 @@ func GetToken() Token {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	RespError(err)
-	fmt.Println(string(body))
 	var authData AuthData
 	err = json.Unmarshal([]byte(body), &authData)
 	if err != nil {
