@@ -43,7 +43,7 @@ Flags:
 Use "kcmanager [command] --help" for more information about a command.
 ```
 
-### _kcmanager add_ options
+### __kcmanager add__
 
 By default, if not specified with a flag the bahaviour of kcmanager is next:
 
@@ -53,7 +53,8 @@ Usage:
   kcmanager add [command]
 
 Available Commands:
-  rancher     adding kubeconfig downloaded from a specific rancher installation
+  aks         adds kubeconfig downloaded from Azure
+  rancher     adds kubeconfig downloaded from a specific rancher installation
 
 Flags:
   -h, --help   help for add
@@ -64,18 +65,14 @@ Global Flags:
 Use "kcmanager add [command] --help" for more information about a command.
 ```
 
-Currently implemented flags
+Currently implemented subcommands for __add__ 
 
-- _rancher_
+#### __rancher__
 
-This flag requires additional enviroenmtn variable RANCHER_TOKEN to be set. This allows to download a kubeconfig for a specific cluster listed in your rancher installation and then add it to your current configuration. Example usage:
+This subcommand requires additional environment variable RANCHER_TOKEN to be set. 
+This allows to download a kubeconfig for a specific cluster listed in your rancher installation and then add it to your current configuration. Example usage:
 
 ```bash
-export RANCHER_TOKEN=token-xxxxx:xxxxxxxxxxxxxxxxxxxxxxxxx
-
-kcmanager add rancher
-adding kubeconfig downloaded from a specific rancher installation
-
 Usage:
   kcmanager add rancher --url=[rancher url] --token=[rancher token|| or the env variable] [flags]
 
@@ -84,6 +81,28 @@ Flags:
   -h, --help             help for rancher
   -t, --token string     token to a Rancher
   -u, --url string       URL to a Rancher
+
+Global Flags:
+  -v, --verbose   verbose output
+```
+
+#### __aks_
+
+This subcommand requires additional Azure environment variables to be set:
+* SUBSCRIPTION_ID - subscription ID where your cluster is located
+* TENANT_ID - Azure tenant ID
+* CLIENT_ID - client ID for service-principal
+* CLIENT_SECRET secret for the service principal
+
+```bash
+Usage:
+  kcmanager add aks --url=[rancher url] --token=[rancher token] [flags]
+
+Flags:
+  -a, --admin                   Download a user/admin credentials
+  -c, --cluster string          Name of a cluster
+  -h, --help                    help for azure
+  -r, --resource-group string   Resource Group in which cluster is located
 
 Global Flags:
   -v, --verbose   verbose output
