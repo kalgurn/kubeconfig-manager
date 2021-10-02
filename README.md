@@ -86,7 +86,7 @@ Global Flags:
   -v, --verbose   verbose output
 ```
 
-#### __aks_
+#### __aks__
 
 This subcommand requires additional Azure environment variables to be set:
 * SUBSCRIPTION_ID - subscription ID where your cluster is located
