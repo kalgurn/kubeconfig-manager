@@ -20,7 +20,7 @@ func Construct(ctx string, cfg *api.Config) (*api.Config, error) {
 		} else {
 			c.APIVersion = cfg.APIVersion
 			c.Kind = cfg.Kind
-			c.CurrentContext = cfg.CurrentContext
+			c.CurrentContext = ctx
 			c.Extensions = cfg.Extensions
 			c.Preferences = cfg.Preferences
 			c.Contexts[ctx] = ctd
