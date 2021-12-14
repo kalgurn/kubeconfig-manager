@@ -6,7 +6,7 @@ require (
 	facette.io/natsort v0.0.0-20181210072756-2cd4dd1e2dcb
 	github.com/ghodss/yaml v1.0.0
 	github.com/sirupsen/logrus v1.8.1
-	github.com/spf13/cobra v1.2.1
+	github.com/spf13/cobra v1.3.0
 	github.com/stretchr/testify v1.7.0
 	k8s.io/client-go v0.23.0
 )
