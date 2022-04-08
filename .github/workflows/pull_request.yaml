@@ -77,7 +77,7 @@ jobs:
           CGO_ENABLED: 0
 
       - name: Store intermediate artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: kubeconfig-manager-${{ matrix.goos }}-${{ matrix.goarch }}-${{ needs.set-version.outputs.new_tag }}.zip
           path: kubeconfig-manager-${{ matrix.goos }}-${{ matrix.goarch }}.zip
@@ -102,7 +102,7 @@ jobs:
       - name: Run Unit tests
         run: go test ./... --coverprofile=coverage.out -test.v
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage.out
